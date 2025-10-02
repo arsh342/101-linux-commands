@@ -670,7 +670,7 @@ Feel free to add new topics in case that you don't find one that you like from t
 - [dig](ebook/en/content/087-the-dig-command.md) - DNS lookup utility
 - [ifconfig](ebook/en/content/041-the-ifconfig-command.md) - configure network interface parameters
 - [ip](ebook/en/content/042-the-ip-command.md) - perform network administration tasks
-- [iptables](ebook/en/content/148-the-iptables-command.md) - configure netfilter firewall
+- [iptables](ebook/en/content/066-the-iptables-command.md) - configure netfilter firewall
 - [lscpu](ebook/en/content/030-the-lscpu-command.md) - display CPU architecture information
 - [netstat](ebook/en/content/067-the-netstat-command.md) - show network status
 - [ping](ebook/en/content/085-the-ping-command.md) - check network connectivity
@@ -812,7 +812,7 @@ Feel free to add new topics in case that you don't find one that you like from t
 - [063-the-tar-command.md](ebook/en/content/063-the-tar-command.md)
 - [064-the-gunzip-command.md](ebook/en/content/064-the-gunzip-command.md)
 - [065-the-hostnamectl-command.md](ebook/en/content/065-the-hostnamectl-command.md)
-- [066-the-iptable-command.md](ebook/en/content/066-the-iptable-command.md)
+- [066-the-iptables-command.md](ebook/en/content/066-the-iptables-command.md)
 - [067-the-netstat-command.md](ebook/en/content/067-the-netstat-command.md)
 - [068-the-lsof-command.md](ebook/en/content/068-the-lsof-command.md)
 - [069-the-bzip2-command.md](ebook/en/content/069-the-bzip2-command.md)
@@ -894,7 +894,6 @@ Feel free to add new topics in case that you don't find one that you like from t
 - [145-the-export-command.md](ebook/en/content/145-the-export-command.md)
 - [146-the-ufw-command.md](ebook/en/content/146-the-ufw-command.md)
 - [147-the-traceroute-command.md](ebook/en/content/147-the-traceroute-command.md)
-- [148-the-iptables-command.md](ebook/en/content/148-the-iptables-command.md)
 
 # 🔗Links
 
