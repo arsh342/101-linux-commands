@@ -684,6 +684,7 @@ Feel free to add new topics in case that you don't find one that you like from t
 - [iptables](ebook/en/content/066-the-iptables-command.md) - configure netfilter firewall
 - [lscpu](ebook/en/content/030-the-lscpu-command.md) - display CPU architecture information
 - [netstat](ebook/en/content/067-the-netstat-command.md) - show network status
+- [nmcli](ebook/en/content/148-the-nmcli-command.md) - NetworkManager command line interface
 - [ping](ebook/en/content/085-the-ping-command.md) - check network connectivity
 - [traceroute](ebook/en/content/147-the-traceroute-command.md) - trace network path to destination
 - [ufw](ebook/en/content/146-the-ufw-command.md) - uncomplicated firewall
@@ -920,6 +921,7 @@ Feel free to add new topics in case that you don't find one that you like from t
 - [157-the-bangbang-command.md](ebook/en/content/157-the-bangbang-command.md)
 - [158-the-tty-command.md](ebook/en/content/158-the-tty-command.md)
 - [159-the-lspci-command.md](ebook/en/content/159-the-lspci-command.md)
+- [148-the-nmcli-command.md](ebook/en/content/148-the-nmcli-command.md)
 
 # 🔗Links
 
