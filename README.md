@@ -737,7 +737,7 @@ For user modification, see useradd, userdel, usermod under System commands
 
 ### Applications
 
-- [!!](ebook/en/content/157-the-!!-command.md) - history expansion (repeat last command)
+- [!!](ebook/en/content/157-the-bangbang-command.md) - history expansion (repeat last command)
 - [bc](ebook/en/content/009-the-bc-command.md) - basic calculator
 - [cal](ebook/en/content/008-the-cal-command.md) - displays a calendar
 - [cmatrix](ebook/en/content/105-the-cmatrix-command.md) - enter the Matrix
