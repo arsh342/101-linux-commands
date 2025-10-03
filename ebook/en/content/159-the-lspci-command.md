@@ -233,11 +233,11 @@ get_gpu_info() {
     echo "=== Graphics Cards ==="
     lspci | grep -i -E "(vga|display|3d)"
     echo
-    
+
     echo "=== Detailed GPU Information ==="
     lspci -v | grep -A 10 -B 2 -i -E "(vga|display)"
     echo
-    
+
     echo "=== GPU Drivers ==="
     lspci -k | grep -A 3 -B 1 -i -E "(vga|display)"
 }
@@ -253,11 +253,11 @@ get_network_info() {
     echo "=== Network Adapters ==="
     lspci | grep -i -E "(network|ethernet|wireless)"
     echo
-    
+
     echo "=== Network Driver Information ==="
     lspci -k | grep -A 3 -B 1 -i -E "(network|ethernet)"
     echo
-    
+
     echo "=== Wireless Capabilities ==="
     lspci -vv | grep -A 20 -B 5 -i wireless
 }
@@ -273,11 +273,11 @@ get_storage_info() {
     echo "=== Storage Controllers ==="
     lspci | grep -i -E "(storage|sata|ide|scsi|nvme)"
     echo
-    
+
     echo "=== Storage Driver Information ==="
     lspci -k | grep -A 3 -B 1 -i -E "(storage|sata|ahci)"
     echo
-    
+
     echo "=== SATA Capabilities ==="
     lspci -vv | grep -A 10 -B 2 -i sata
 }
@@ -297,31 +297,31 @@ hardware_inventory() {
     echo "=== PCI Hardware Inventory ==="
     echo "Generated: $(date)"
     echo
-    
+
     echo "--- System Overview ---"
     lspci | wc -l | xargs echo "Total PCI devices:"
     echo
-    
+
     echo "--- Graphics ---"
     lspci | grep -i -E "(vga|display|3d)" || echo "No graphics devices found"
     echo
-    
+
     echo "--- Network ---"
     lspci | grep -i -E "(network|ethernet|wireless)" || echo "No network devices found"
     echo
-    
+
     echo "--- Storage ---"
     lspci | grep -i -E "(storage|sata|ide|nvme)" || echo "No storage controllers found"
     echo
-    
+
     echo "--- Audio ---"
     lspci | grep -i -E "(audio|sound|multimedia)" || echo "No audio devices found"
     echo
-    
+
     echo "--- USB Controllers ---"
     lspci | grep -i usb || echo "No USB controllers found"
     echo
-    
+
     echo "--- Other Devices ---"
     lspci | grep -v -i -E "(vga|display|3d|network|ethernet|wireless|storage|sata|ide|nvme|audio|sound|multimedia|usb|bridge|host)" || echo "No other devices"
 }
@@ -337,13 +337,13 @@ hardware_inventory > hardware_inventory.txt
 
 check_drivers() {
     echo "=== PCI Driver Status ==="
-    
+
     lspci | while read line; do
         device_id=$(echo "$line" | cut -d' ' -f1)
         device_name=$(echo "$line" | cut -d' ' -f2-)
-        
+
         driver_info=$(lspci -k -s "$device_id" | grep "Kernel driver in use")
-        
+
         if [ -n "$driver_info" ]; then
             driver=$(echo "$driver_info" | cut -d':' -f2 | xargs)
             echo "✓ $device_id: $device_name -> $driver"
@@ -364,23 +364,23 @@ check_drivers
 
 analyze_performance() {
     echo "=== PCI Performance Analysis ==="
-    
+
     echo "--- PCIe Link Speeds ---"
     lspci -vv | grep -A 1 -B 1 "Link.*Speed" | grep -E "(:|Speed|Width)"
     echo
-    
+
     echo "--- Memory Mappings ---"
     lspci -v | grep -E "(Memory at|I/O ports at)" | sort | uniq -c | sort -nr
     echo
-    
+
     echo "--- Power Management ---"
     lspci -vv | grep -c "Power Management" | xargs echo "Devices with power management:"
     echo
-    
+
     echo "--- MSI Capabilities ---"
     lspci -vv | grep -c "MSI:" | xargs echo "Devices with MSI support:"
     echo
-    
+
     echo "--- 64-bit Devices ---"
     lspci -vv | grep -c "64-bit" | xargs echo "64-bit capable devices:"
 }
@@ -396,15 +396,15 @@ analyze_performance
 # Check if device is detected
 check_device_detection() {
     local search_term="$1"
-    
+
     echo "Searching for: $search_term"
-    
+
     devices=$(lspci | grep -i "$search_term")
     if [ -n "$devices" ]; then
         echo "✓ Device(s) found:"
         echo "$devices"
         echo
-        
+
         echo "Driver information:"
         echo "$devices" | while read line; do
             device_id=$(echo "$line" | cut -d' ' -f1)
@@ -430,14 +430,14 @@ check_device_detection "network"
 # Find devices without drivers
 find_missing_drivers() {
     echo "=== Devices Without Drivers ==="
-    
+
     lspci | while read line; do
         device_id=$(echo "$line" | cut -d' ' -f1)
         device_name=$(echo "$line" | cut -d' ' -f2-)
-        
+
         if ! lspci -k -s "$device_id" | grep -q "Kernel driver in use"; then
             echo "Missing driver: $device_id - $device_name"
-            
+
             # Try to find available modules
             modules=$(lspci -k -s "$device_id" | grep "Kernel modules:" | cut -d':' -f2)
             if [ -n "$modules" ]; then
@@ -456,7 +456,7 @@ find_missing_drivers
 # Check hardware compatibility
 check_compatibility() {
     echo "=== Hardware Compatibility Check ==="
-    
+
     echo "--- Unsupported Devices ---"
     lspci -nn | while read line; do
         if echo "$line" | grep -q "\[ffff:"; then
@@ -464,11 +464,11 @@ check_compatibility() {
         fi
     done
     echo
-    
+
     echo "--- Legacy Devices ---"
     lspci | grep -i -E "(legacy|isa|parallel|serial|floppy)" || echo "No legacy devices found"
     echo
-    
+
     echo "--- Vendor Support ---"
     echo "Intel devices: $(lspci | grep -i intel | wc -l)"
     echo "AMD devices: $(lspci | grep -i amd | wc -l)"
@@ -487,17 +487,17 @@ check_compatibility
 # Analyze specific device configuration
 analyze_device_config() {
     local device_id="$1"
-    
+
     echo "=== Configuration Analysis for $device_id ==="
-    
+
     echo "--- Basic Information ---"
     lspci -s "$device_id" -v
     echo
-    
+
     echo "--- Configuration Space ---"
     lspci -s "$device_id" -x
     echo
-    
+
     echo "--- Capabilities ---"
     lspci -s "$device_id" -vv | grep -A 20 "Capabilities:"
 }
@@ -511,7 +511,7 @@ analyze_device_config() {
 # Analyze PCIe bandwidth
 analyze_bandwidth() {
     echo "=== PCIe Bandwidth Analysis ==="
-    
+
     lspci -vv | grep -A 2 -B 2 "Express.*Root Port\|Express.*Endpoint" | \
     while read line; do
         if echo "$line" | grep -q "Express"; then
@@ -531,7 +531,7 @@ analyze_bandwidth
 # Check power management capabilities
 check_power_management() {
     echo "=== Power Management Status ==="
-    
+
     lspci -vv | grep -B 5 -A 10 "Power Management" | \
     grep -E "(^[0-9a-f]{2}:[0-9a-f]{2}\.[0-9]|Power Management|PME)"
 }
@@ -547,7 +547,7 @@ check_power_management
 # Match PCI devices with loaded modules
 match_devices_modules() {
     echo "=== PCI Devices and Kernel Modules ==="
-    
+
     lspci -k | grep -E "(^[0-9a-f]{2}:|Kernel driver|Kernel modules)" | \
     while read line; do
         if [[ "$line" =~ ^[0-9a-f]{2}: ]]; then
@@ -567,16 +567,16 @@ match_devices_modules() {
 # Check udev rules for PCI devices
 check_udev_rules() {
     local device_id="$1"
-    
+
     echo "Checking udev rules for device: $device_id"
-    
+
     # Get vendor and device IDs
     vendor_device=$(lspci -n -s "$device_id" | awk '{print $3}')
     vendor_id=$(echo "$vendor_device" | cut -d':' -f1)
     device_id_hex=$(echo "$vendor_device" | cut -d':' -f2)
-    
+
     echo "Vendor ID: $vendor_id, Device ID: $device_id_hex"
-    
+
     # Search udev rules
     find /etc/udev/rules.d /lib/udev/rules.d -name "*.rules" -exec grep -l "$vendor_id\|$device_id_hex" {} \; 2>/dev/null
 }
@@ -590,19 +590,19 @@ check_udev_rules() {
 # Check for security-relevant hardware
 check_security_hardware() {
     echo "=== Security Hardware Check ==="
-    
+
     echo "--- TPM Devices ---"
     lspci | grep -i tpm || echo "No TPM devices found"
     echo
-    
+
     echo "--- Virtualization Support ---"
     lspci -vv | grep -i -E "(vt-x|amd-v|virtualization)" || echo "Check CPU flags for virtualization"
     echo
-    
+
     echo "--- IOMMU Support ---"
     lspci -vv | grep -i iommu || echo "No explicit IOMMU references found"
     echo
-    
+
     echo "--- Hardware Security Modules ---"
     lspci | grep -i -E "(security|crypto|hsm)" || echo "No HSM devices found"
 }
@@ -646,31 +646,31 @@ cp "$CURRENT_FILE" "$BASELINE_FILE"
 # Generate hardware documentation
 document_hardware() {
     local output_file="hardware_documentation_$(date +%Y%m%d).txt"
-    
+
     {
         echo "Hardware Documentation"
         echo "Generated: $(date)"
         echo "Hostname: $(hostname)"
         echo "========================="
         echo
-        
+
         echo "PCI Device Summary:"
         lspci | wc -l | xargs echo "Total devices:"
         echo
-        
+
         echo "Detailed Device List:"
         lspci -nn
         echo
-        
+
         echo "Driver Status:"
         lspci -k
         echo
-        
+
         echo "Device Tree:"
         lspci -tv
-        
+
     } > "$output_file"
-    
+
     echo "Documentation saved to: $output_file"
 }
 ```

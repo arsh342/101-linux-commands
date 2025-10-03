@@ -187,7 +187,7 @@ fi
 
 ask_confirmation() {
     local message="$1"
-    
+
     if tty -s; then
         read -p "$message (y/n): " response
         case "$response" in
@@ -241,7 +241,7 @@ log_message() {
     local level="$1"
     local message="$2"
     local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
-    
+
     if tty -s; then
         # Terminal output - colored
         case "$level" in
@@ -289,7 +289,7 @@ count_user_terminals() {
     local user=$(whoami)
     local count=$(who | grep "^$user " | wc -l)
     echo "User $user has $count active terminals"
-    
+
     echo "Active sessions:"
     who | grep "^$user " | while read line; do
         echo "  $line"
@@ -306,7 +306,7 @@ count_user_terminals
 send_to_terminal() {
     local target_tty="$1"
     local message="$2"
-    
+
     if [ -w "$target_tty" ]; then
         echo "Message from $(tty): $message" > "$target_tty"
         echo "Message sent to $target_tty"
@@ -351,11 +351,11 @@ monitor_terminals() {
     echo "Active terminals:"
     ls -la /dev/pts/
     echo
-    
+
     echo "Users and terminals:"
     who
     echo
-    
+
     echo "Current session:"
     echo "  TTY: $(tty)"
     echo "  Uptime: $(uptime)"
@@ -374,7 +374,7 @@ check_tty_permissions() {
     local current_tty=$(tty)
     echo "Terminal: $current_tty"
     ls -la "$current_tty"
-    
+
     # Check if others can write to terminal
     if [ -w "$current_tty" ]; then
         echo "Terminal is writable"
@@ -395,15 +395,15 @@ check_secure_terminal() {
         echo "WARNING: Not running in a terminal"
         return 1
     fi
-    
+
     local current_tty=$(tty)
     local tty_perms=$(ls -la "$current_tty" | cut -d' ' -f1)
-    
+
     if [[ "$tty_perms" =~ .*w.*w.* ]]; then
         echo "WARNING: Terminal is world-writable"
         return 1
     fi
-    
+
     echo "Terminal security check passed"
     return 0
 }
@@ -436,19 +436,19 @@ debug_terminal
 # Detect various input/output scenarios
 detect_io_redirection() {
     echo "Input/Output Analysis:"
-    
+
     if tty -s; then
         echo "  Standard input: Terminal ($(tty))"
     else
         echo "  Standard input: Redirected/Pipe"
     fi
-    
+
     if [ -t 1 ]; then
         echo "  Standard output: Terminal"
     else
         echo "  Standard output: Redirected/Pipe"
     fi
-    
+
     if [ -t 2 ]; then
         echo "  Standard error: Terminal"
     else
@@ -466,18 +466,18 @@ detect_io_redirection
 find_my_sessions() {
     local user=$(whoami)
     echo "Finding sessions for user: $user"
-    
+
     echo "Current TTY: $(tty)"
     echo
-    
+
     echo "All active sessions:"
     who | grep "^$user "
     echo
-    
+
     echo "Screen sessions:"
     screen -ls 2>/dev/null || echo "No screen sessions"
     echo
-    
+
     echo "Tmux sessions:"
     tmux list-sessions 2>/dev/null || echo "No tmux sessions"
 }
@@ -503,7 +503,7 @@ detect_multiplexer() {
     else
         echo "Not in a multiplexer"
     fi
-    
+
     echo "TTY: $(tty)"
 }
 
@@ -516,7 +516,7 @@ detect_multiplexer
 # Detect remote vs local sessions
 detect_session_type() {
     local current_tty=$(tty)
-    
+
     if [ -n "$SSH_CONNECTION" ]; then
         echo "Remote SSH session"
         echo "  From: $(echo $SSH_CONNECTION | cut -d' ' -f1,2)"
@@ -528,7 +528,7 @@ detect_session_type() {
     else
         echo "Unknown session type"
     fi
-    
+
     echo "TTY: $current_tty"
 }
 
@@ -546,7 +546,7 @@ safe_interactive() {
         echo "Error: This script requires a terminal" >&2
         exit 1
     fi
-    
+
     # Proceed with interactive operations
     read -p "Continue? (y/n): " response
 }
@@ -578,7 +578,7 @@ check_terminal_safe() {
     local tty_output
     tty_output=$(tty 2>/dev/null)
     local exit_code=$?
-    
+
     if [ $exit_code -eq 0 ]; then
         echo "Terminal: $tty_output"
         return 0

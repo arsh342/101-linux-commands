@@ -270,7 +270,7 @@ find_commands "security"
 daily_discovery() {
     local keywords=("network" "file" "text" "system" "process")
     local keyword=${keywords[$RANDOM % ${#keywords[@]}]}
-    
+
     echo "Today's command discovery - Topic: $keyword"
     apropos "$keyword" | shuf | head -5
 }
@@ -389,14 +389,14 @@ apropos -a package update
 discover_commands() {
     echo "What do you want to do? (e.g., 'copy files', 'monitor system')"
     read -r task
-    
+
     echo "Searching for commands related to: $task"
     echo "======================================"
-    
+
     apropos "$task" | while read -r line; do
         cmd=$(echo "$line" | awk '{print $1}')
         desc=$(echo "$line" | cut -d' ' -f2-)
-        
+
         echo "Command: $cmd"
         echo "Description: $desc"
         echo "Try: man $cmd"
@@ -416,7 +416,7 @@ discover_commands
 recommend_command() {
     local keyword="$1"
     echo "For '$keyword', you might want to try:"
-    
+
     apropos "$keyword" | head -5 | while read -r line; do
         cmd=$(echo "$line" | awk '{print $1}')
         echo "  • $cmd - $(man -f $cmd 2>/dev/null | cut -d' ' -f2- || echo 'No description')"
@@ -503,13 +503,13 @@ sudo mandb -f
 while true; do
     echo -n "Enter search term (or 'quit' to exit): "
     read -r term
-    
+
     if [ "$term" = "quit" ]; then
         break
     fi
-    
+
     results=$(apropos "$term" 2>/dev/null)
-    
+
     if [ -z "$results" ]; then
         echo "No commands found for '$term'"
         echo "Try: sudo mandb  # to update manual database"
@@ -519,7 +519,7 @@ while true; do
         echo
         echo -n "Enter number to view manual (or press Enter to continue): "
         read -r choice
-        
+
         if [[ "$choice" =~ ^[0-9]+$ ]]; then
             cmd=$(echo "$results" | sed -n "${choice}p" | awk '{print $1}')
             if [ -n "$cmd" ]; then
@@ -560,7 +560,7 @@ read -r choice
 if [[ "$choice" =~ ^[0-9]+$ ]] && [ "$choice" -ge 1 ] && [ "$choice" -le "${#categories[@]}" ]; then
     keyword=$(echo "${categories[$((choice-1))]}" | cut -d: -f1)
     desc=$(echo "${categories[$((choice-1))]}" | cut -d: -f2)
-    
+
     echo "Commands for $desc:"
     apropos "$keyword" | head -10
 fi

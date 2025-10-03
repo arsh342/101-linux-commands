@@ -140,7 +140,7 @@ esac
 install_package() {
     local package=$1
     local distro=$(lsb_release -i -s)
-    
+
     case $distro in
         "Ubuntu"|"Debian")
             sudo apt-get install -y "$package"
@@ -215,12 +215,12 @@ if command -v lsb_release >/dev/null 2>&1; then
     lsb_release -a
 else
     echo "lsb_release not available, using alternatives:"
-    
+
     # Try /etc/os-release (systemd standard)
     if [ -f /etc/os-release ]; then
         cat /etc/os-release
     fi
-    
+
     # Try distribution-specific files
     if [ -f /etc/redhat-release ]; then
         cat /etc/redhat-release
@@ -309,7 +309,7 @@ case $DISTRO in
         echo "Configuring for Ubuntu..."
         sudo apt update
         sudo apt install -y build-essential git curl
-        
+
         if [[ "$VERSION" == "22.04" ]]; then
             echo "Ubuntu 22.04 specific setup..."
             # Add 22.04 specific configurations
@@ -342,10 +342,10 @@ check_minimum_version() {
     local current_version=$(lsb_release -r -s)
     local minimum_version=$1
     local distro=$(lsb_release -i -s)
-    
+
     echo "Current $distro version: $current_version"
     echo "Minimum required version: $minimum_version"
-    
+
     if [ "$(printf '%s\n' "$minimum_version" "$current_version" | sort -V | head -n1)" = "$minimum_version" ]; then
         echo "Version requirement satisfied"
         return 0
@@ -399,7 +399,7 @@ RUN apt-get update && apt-get install -y \\
     curl \\
     wget \\
     git
-    
+
 # Add application-specific configurations
 EOF
 
@@ -455,15 +455,15 @@ get_distro_info() {
 parse_distro_safe() {
     local distro=$(lsb_release -i -s 2>/dev/null)
     local version=$(lsb_release -r -s 2>/dev/null)
-    
+
     if [ -z "$distro" ]; then
         distro="Unknown"
     fi
-    
+
     if [ -z "$version" ]; then
         version="Unknown"
     fi
-    
+
     echo "Distribution: $distro"
     echo "Version: $version"
 }

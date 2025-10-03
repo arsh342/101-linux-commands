@@ -336,19 +336,19 @@ analyze_dmesg() {
     echo "=== Kernel Message Analysis ==="
     echo "Generated: $(date)"
     echo
-    
+
     echo "Error Messages:"
     dmesg -l err | tail -10
     echo
-    
+
     echo "Warning Messages:"
     dmesg -l warn | tail -10
     echo
-    
+
     echo "Recent Hardware Events:"
     dmesg --since="1 hour ago" | grep -i -E "(usb|disk|network|memory)" | tail -10
     echo
-    
+
     echo "Driver Loading Issues:"
     dmesg | grep -i -E "(failed|error|timeout)" | grep -i driver | tail -5
 }
@@ -364,9 +364,9 @@ analyze_dmesg > kernel_analysis.txt
 
 check_system_health() {
     local issues=0
-    
+
     echo "=== System Health Check ==="
-    
+
     # Check for critical errors
     critical_errors=$(dmesg -l crit,alert,emerg --since="24 hours ago" | wc -l)
     if [ $critical_errors -gt 0 ]; then
@@ -375,7 +375,7 @@ check_system_health() {
     else
         echo "✅ No critical errors in last 24 hours"
     fi
-    
+
     # Check for hardware errors
     hw_errors=$(dmesg --since="24 hours ago" | grep -i -c -E "(hardware error|machine check|MCE)")
     if [ $hw_errors -gt 0 ]; then
@@ -384,7 +384,7 @@ check_system_health() {
     else
         echo "✅ No hardware errors detected"
     fi
-    
+
     # Check for out of memory
     oom_events=$(dmesg --since="24 hours ago" | grep -i -c "out of memory")
     if [ $oom_events -gt 0 ]; then
@@ -393,7 +393,7 @@ check_system_health() {
     else
         echo "✅ No out of memory events"
     fi
-    
+
     # Check for filesystem errors
     fs_errors=$(dmesg --since="24 hours ago" | grep -i -c -E "(filesystem error|ext[234] error|xfs error)")
     if [ $fs_errors -gt 0 ]; then
@@ -402,7 +402,7 @@ check_system_health() {
     else
         echo "✅ No filesystem errors"
     fi
-    
+
     echo
     if [ $issues -eq 0 ]; then
         echo "🎉 System appears healthy!"
@@ -446,11 +446,11 @@ check_network_issues() {
     echo "Network Interface Events:"
     dmesg | grep -i -E "(eth[0-9]|wlan[0-9]|enp|wlp)" | tail -10
     echo
-    
+
     echo "Network Driver Issues:"
     dmesg | grep -i -E "network.*error|ethernet.*error" | tail -5
     echo
-    
+
     echo "Link Status Changes:"
     dmesg | grep -i "link" | tail -10
 }
@@ -464,11 +464,11 @@ check_storage_health() {
     echo "Storage Device Detection:"
     dmesg | grep -i -E "(sda|sdb|nvme)" | grep -i "sectors" | tail -5
     echo
-    
+
     echo "Storage Errors:"
     dmesg | grep -i -E "(I/O error|Medium Error|critical medium error)" | tail -5
     echo
-    
+
     echo "Filesystem Events:"
     dmesg | grep -i -E "(mounted|unmounted|remounted)" | tail -10
 }
@@ -494,10 +494,10 @@ journalctl -k --since="1 hour ago" | head -5
 save_dmesg_log() {
     local logfile="/var/log/dmesg.log"
     local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
-    
+
     echo "[$timestamp] === dmesg snapshot ===" >> "$logfile"
     dmesg -T >> "$logfile"
-    
+
     # Rotate if file gets too large
     if [ $(stat -f%z "$logfile" 2>/dev/null || stat -c%s "$logfile") -gt 10485760 ]; then
         mv "$logfile" "$logfile.old"
@@ -514,7 +514,7 @@ create_dmesg_metrics() {
     local errors=$(dmesg -l err --since="1 hour ago" | wc -l)
     local warnings=$(dmesg -l warn --since="1 hour ago" | wc -l)
     local timestamp=$(date +%s)
-    
+
     # Output in Prometheus format
     echo "kernel_errors_total $errors $timestamp"
     echo "kernel_warnings_total $warnings $timestamp"
@@ -622,7 +622,7 @@ save_important_messages() {
 document_system_event() {
     local event="$1"
     local logfile="/var/log/system_events.log"
-    
+
     echo "$(date): $event" >> "$logfile"
     echo "=== dmesg at time of event ===" >> "$logfile"
     dmesg -T | tail -20 >> "$logfile"

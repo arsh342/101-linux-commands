@@ -377,7 +377,7 @@ sudo nice -n 19 ionice -c 3 badblocks -sv /dev/sdb
 
 ```bash
 # Output shows block numbers of bad sectors
-# Example: 
+# Example:
 # Pass completed, 5 bad blocks found. (0/0/5 errors)
 # 1024
 # 2048

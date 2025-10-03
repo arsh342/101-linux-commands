@@ -638,7 +638,7 @@ Feel free to add new topics in case that you don't find one that you like from t
 ### System commands
 
 - [badblocks](ebook/en/content/149-the-badblocks-command.md) - search for bad blocks on storage devices
-- [cfdisk](ebook/en/content/148-the-cfdisk-command.md) - curses-based disk partitioning tool
+- [cfdisk](ebook/en/content/160-the-cfdisk-command.md) - curses-based disk partitioning tool
 - [crontab](ebook/en/content/091-the-crontab-command.md) - maintain individual tables used to drive the cron daemon
 - [df](ebook/en/content/010-the-df-command.md) - display free disk space
 - [dmidecode](ebook/en/content/154-the-dmidecode-command.md) - retrieve hardware information from DMI table
@@ -909,7 +909,7 @@ Feel free to add new topics in case that you don't find one that you like from t
 - [145-the-export-command.md](ebook/en/content/145-the-export-command.md)
 - [146-the-ufw-command.md](ebook/en/content/146-the-ufw-command.md)
 - [147-the-traceroute-command.md](ebook/en/content/147-the-traceroute-command.md)
-- [148-the-cfdisk-command.md](ebook/en/content/148-the-cfdisk-command.md)
+- [148-the-nmcli-command.md](ebook/en/content/148-the-nmcli-command.md)
 - [149-the-badblocks-command.md](ebook/en/content/149-the-badblocks-command.md)
 - [150-the-fsck-command.md](ebook/en/content/150-the-fsck-command.md)
 - [151-the-mkfs-command.md](ebook/en/content/151-the-mkfs-command.md)
@@ -921,7 +921,7 @@ Feel free to add new topics in case that you don't find one that you like from t
 - [157-the-bangbang-command.md](ebook/en/content/157-the-bangbang-command.md)
 - [158-the-tty-command.md](ebook/en/content/158-the-tty-command.md)
 - [159-the-lspci-command.md](ebook/en/content/159-the-lspci-command.md)
-- [148-the-nmcli-command.md](ebook/en/content/148-the-nmcli-command.md)
+- [160-the-cfdisk-command.md](ebook/en/content/160-the-cfdisk-command.md)
 
 # 🔗Links
 

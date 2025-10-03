@@ -90,7 +90,7 @@ cd /var/log
 # !^ - First argument
 echo !^        # echo commit
 
-# !$ - Last argument  
+# !$ - Last argument
 echo !$        # echo --amend
 
 # !* - All arguments
@@ -334,7 +334,7 @@ history | tail -5    # Check recent commands
 # For critical operations, type commands fully
 # Don't rely on history expansion for:
 # - rm commands
-# - chmod commands  
+# - chmod commands
 # - System configuration changes
 ```
 
@@ -428,7 +428,7 @@ eval "$last_command"
 
 while true; do
     read -p "Command: " cmd
-    
+
     if [ "$cmd" = "!!" ]; then
         echo "Re-running: $last_cmd"
         eval "$last_cmd"

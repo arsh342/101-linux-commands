@@ -258,26 +258,26 @@ create_asset_report() {
     echo "=== System Asset Report ==="
     echo "Generated: $(date)"
     echo
-    
+
     echo "System Information:"
     echo "  Manufacturer: $(sudo dmidecode -s system-manufacturer)"
     echo "  Model: $(sudo dmidecode -s system-product-name)"
     echo "  Serial Number: $(sudo dmidecode -s system-serial-number)"
     echo "  UUID: $(sudo dmidecode -s system-uuid)"
     echo
-    
+
     echo "BIOS Information:"
     echo "  Vendor: $(sudo dmidecode -s bios-vendor)"
     echo "  Version: $(sudo dmidecode -s bios-version)"
     echo "  Date: $(sudo dmidecode -s bios-release-date)"
     echo
-    
+
     echo "Motherboard Information:"
     echo "  Manufacturer: $(sudo dmidecode -s baseboard-manufacturer)"
     echo "  Model: $(sudo dmidecode -s baseboard-product-name)"
     echo "  Serial: $(sudo dmidecode -s baseboard-serial-number)"
     echo
-    
+
     echo "Chassis Information:"
     echo "  Type: $(sudo dmidecode -s chassis-type)"
     echo "  Manufacturer: $(sudo dmidecode -s chassis-manufacturer)"
@@ -293,26 +293,26 @@ create_asset_report > system_asset_report.txt
 # Validate hardware configuration
 validate_hardware() {
     echo "=== Hardware Validation ==="
-    
+
     # Check if virtualization is supported
     if sudo dmidecode -t processor | grep -q "VMX\|SVM"; then
         echo "✓ Virtualization supported"
     else
         echo "✗ Virtualization not supported"
     fi
-    
+
     # Check memory configuration
     local total_slots=$(sudo dmidecode -t 17 | grep "Locator:" | wc -l)
     local used_slots=$(sudo dmidecode -t 17 | grep "Size:" | grep -v "No Module" | wc -l)
     echo "Memory: $used_slots/$total_slots slots used"
-    
+
     # Check for ECC memory
     if sudo dmidecode -t 17 | grep -q "Error Correction Type.*ECC"; then
         echo "✓ ECC memory detected"
     else
         echo "ℹ No ECC memory detected"
     fi
-    
+
     # Check system age (approximate)
     local bios_date=$(sudo dmidecode -s bios-release-date)
     local year=$(echo $bios_date | awk -F'/' '{print $3}')
@@ -419,35 +419,35 @@ cp "$CURRENT_STATE" "$PREVIOUS_STATE"
 collect_inventory() {
     local hostname=$(hostname)
     local output_file="inventory_${hostname}_$(date +%Y%m%d).txt"
-    
+
     {
         echo "Hardware Inventory for $hostname"
         echo "Generated: $(date)"
         echo "================================="
         echo
-        
+
         echo "System Information:"
         sudo dmidecode -t system | grep -E "(Manufacturer|Product|Serial|UUID)"
         echo
-        
+
         echo "BIOS Information:"
         sudo dmidecode -t bios | grep -E "(Vendor|Version|Release Date)"
         echo
-        
+
         echo "Memory Configuration:"
         sudo dmidecode -t memory | grep -E "(Maximum Capacity|Number Of Devices)"
         sudo dmidecode -t 17 | grep -E "(Locator|Size|Speed|Manufacturer)" | grep -v "Bank Locator"
         echo
-        
+
         echo "Processor Information:"
         sudo dmidecode -t processor | grep -E "(Family|Version|Speed|Core Count|Thread Count)"
         echo
-        
+
         echo "Motherboard Information:"
         sudo dmidecode -t baseboard | grep -E "(Manufacturer|Product|Version|Serial)"
-        
+
     } > "$output_file"
-    
+
     echo "Inventory saved to: $output_file"
 }
 
@@ -466,7 +466,7 @@ get_license_info() {
     echo "Serial: $(sudo dmidecode -s system-serial-number)"
     echo "Manufacturer: $(sudo dmidecode -s system-manufacturer)"
     echo "Model: $(sudo dmidecode -s system-product-name)"
-    
+
     # Generate unique system fingerprint
     local fingerprint=$(sudo dmidecode -s system-uuid)$(sudo dmidecode -s baseboard-serial-number)
     echo "System Fingerprint: $(echo -n "$fingerprint" | sha256sum | cut -d' ' -f1)"
@@ -496,7 +496,7 @@ sudo dmidecode -t system
 # In VMs, some information may be virtualized or missing
 check_virtualization() {
     local system_product=$(sudo dmidecode -s system-product-name)
-    
+
     case "$system_product" in
         *"VMware"*|*"Virtual Machine"*|*"VirtualBox"*)
             echo "Running in virtual machine: $system_product"
@@ -564,7 +564,7 @@ create_monitoring_metrics() {
     local uuid=$(sudo dmidecode -s system-uuid)
     local serial=$(sudo dmidecode -s system-serial-number)
     local manufacturer=$(sudo dmidecode -s system-manufacturer)
-    
+
     # Output in monitoring format (e.g., Prometheus)
     echo "system_info{uuid=\"$uuid\",serial=\"$serial\",manufacturer=\"$manufacturer\"} 1"
 }
@@ -595,7 +595,7 @@ run_dmidecode() {
         echo "dmidecode not available"
         return 1
     fi
-    
+
     if ! sudo dmidecode "$@" 2>/dev/null; then
         echo "Failed to read DMI information"
         return 1
